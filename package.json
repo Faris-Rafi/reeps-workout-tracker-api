@@ -1,0 +1,22 @@
+{
+  "name": "reeps-workout-tracker-api",
+  "version": "1.0.0",
+  "description": "API for Reeps Workout Tracker Mobile App",
+  "main": "src/index.ts",
+  "license": "ISC",
+  "author": "ReesV <farisrafi048@gmail.com>",
+  "type": "commonjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.5.0",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
+  }
+}
