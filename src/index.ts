@@ -1,9 +1,9 @@
-const express = require('express');
+import express from 'express';
 
 const app = express();
 const port = 3000;
 
-app.get('/ping', (req: any, res: { json: (arg0: { status: string; }) => void; }) => {
+app.get('/ping', (_, res: { json: (arg0: { status: string }) => void }) => {
   res.json({ status: 'ok' });
 });
 
