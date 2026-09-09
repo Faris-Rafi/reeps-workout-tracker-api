@@ -1,7 +1,7 @@
 import express from 'express';
 
 const app = express();
-const port = 3000;
+const port = 3001;
 
 app.get('/ping', (_, res: { json: (arg0: { status: string }) => void }) => {
   res.json({ status: 'ok' });

@@ -8,7 +8,7 @@
   "type": "module",
   "scripts": {
     "test": "jest -i --colors --verbose --detectOpenHandles",
-    "dev": "nodemon src/index.ts",
+    "dev": "nodemon --watch src --ext ts --exec ts-node src/index.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prettier": "prettier --check **/*.ts",
@@ -44,6 +44,7 @@
     "nodemon": "^3.1.14",
     "prettier": "^3.9.6",
     "ts-jest": "^29.4.12",
+    "ts-node": "^10.9.2",
     "tsx": "^4.23.13",
     "typescript": "^6.0.3"
   }
