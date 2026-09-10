@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:16.15-alpine
+    container_name: reeps_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: reeps_user
+      POSTGRES_PASSWORD: reeps21367
+      POSTGRES_DB: reeps_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - reeps-db-data:/var/lib/postgresql/data
+
+  node_app:
+    build: .
+    image: node_api
+    container_name: reeps_api
+    restart: unless-stopped
+    ports:
+      - '3001:3001'
+    environment:
+      DATABASE_URL: postgresql://reeps_user:reeps21367@db:5433/reeps_db
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+volumes:
+  reeps-db-data:
+
