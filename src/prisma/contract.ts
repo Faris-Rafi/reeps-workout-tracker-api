@@ -1,4 +1,13 @@
-import { defineContract } from '@prisma/orm-postgres/contract-builder';
+import { defineContract, enumType, member } from '@prisma/orm-postgres/contract-builder';
+
+const TokenTypes = enumType(
+  'TokenTypes',
+  { codecId: 'pg/text@1', nativeType: 'text' } as const,
+  member('ACCESS', 'access'),
+  member('REFRESH', 'refresh'),
+  member('RESET_PASSWORD', 'resetPassword'),
+  member('VERIFY_EMAIL', 'verifyEmail')
+);
 
 export const contract = defineContract({}, ({ field, model, rel }) => {
   const UserStatus = model('UserStatus', {
@@ -36,7 +45,7 @@ export const contract = defineContract({}, ({ field, model, rel }) => {
     fields: {
       id: field.id.uuidv7String(),
       email: field.text().unique(),
-      username: field.text().optional(),
+      password: field.text(),
       name: field.text().optional(),
       height: field.decimal().optional(),
       weight: field.decimal().optional(),
@@ -88,6 +97,18 @@ export const contract = defineContract({}, ({ field, model, rel }) => {
     },
   });
 
+  const PersonalAccessToken = model('PersonalAccessToken', {
+    fields: {
+      id: field.id.uuidv7String(),
+      token: field.text(),
+      userId: field.uuidString(),
+      type: field.namedType(TokenTypes),
+      expiresAt: field.dateTime(),
+      createdAt: field.temporal.createdAt(),
+      updatedAt: field.temporal.updatedAt(),
+    },
+  });
+
   return {
     models: {
       UserStatus: UserStatus.relations({
@@ -113,6 +134,9 @@ export const contract = defineContract({}, ({ field, model, rel }) => {
         workout: rel.belongsTo(Workout, { from: 'workoutId', to: 'id' }),
       }),
       Sysconf: Sysconf.relations({}),
+      PersonalAccessToken: PersonalAccessToken.relations({
+        user: rel.belongsTo(User, { from: 'userId', to: 'id' }),
+      }),
     },
   };
 });

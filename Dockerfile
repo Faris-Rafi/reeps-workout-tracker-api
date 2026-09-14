@@ -4,4 +4,4 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 EXPOSE 3001
-CMD sh -c "npx prisma@latest db init && npm run dev"
+CMD sh -c "npx prisma db init && npm run dev"
