@@ -17,3 +17,24 @@ export const registerSchema = {
       path: ['password_confirmation'],
     }),
 };
+
+export const loginSchema = {
+  body: z.object({
+    email: z.email('Invalid email format'),
+    password: z.string().min(8, 'Password must be at least 8 characters'),
+  }),
+};
+
+export const logoutSchema = {
+  body: z.object({
+    userId: z.string(),
+    token: z.string(),
+  }),
+};
+
+export const refreshTokensSchema = {
+  body: z.object({
+    userId: z.string(),
+    token: z.string(),
+  }),
+};

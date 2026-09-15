@@ -16,6 +16,7 @@ const generateToken = (
     exp: expires.unix(),
     type,
   };
+  // eslint-disable-next-line import-x/no-named-as-default-member
   return jwt.sign(payload, secret);
 };
 
@@ -41,5 +42,14 @@ export const TokenService = {
         expires: refreshTokenExpires.toISOString(),
       },
     };
+  },
+  verifyToken: async (token: string) => {
+    // eslint-disable-next-line import-x/no-named-as-default-member
+    const payload = jwt.verify(token, config.jwt.secret) as { type: string; sub: string };
+    const tokenDoc = await TokenModel.getUserToken({ token, userId: payload.sub });
+    if (!tokenDoc) {
+      throw new Error('Token not found');
+    }
+    return tokenDoc;
   },
 };

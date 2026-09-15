@@ -11,4 +11,10 @@ export const TokenModel = {
 
     return prisma.PersonalAccessToken.create({ ...data, userId, expiresAt });
   },
+  delete: (data: { token: string; type: string }) =>
+    prisma.PersonalAccessToken.where({ ...data }).delete(),
+  getUserToken: (data: { token: string; userId: string }) => {
+    const userId = data.userId as Char<36>;
+    return prisma.PersonalAccessToken.where({ ...data, userId }).first();
+  },
 };
