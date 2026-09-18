@@ -13,8 +13,12 @@ export const TokenModel = {
   },
   delete: (data: { token: string; type: string }) =>
     prisma.PersonalAccessToken.where({ ...data }).delete(),
-  getUserToken: (data: { token: string; userId: string }) => {
+  findToken: (data: { token: string; userId: string; type: string }) => {
     const userId = data.userId as Char<36>;
     return prisma.PersonalAccessToken.where({ ...data, userId }).first();
+  },
+  finTokenByUserId: (data: { userId: string }) => {
+    const userId = data.userId as Char<36>;
+    return prisma.PersonalAccessToken.where({ userId }).first();
   },
 };

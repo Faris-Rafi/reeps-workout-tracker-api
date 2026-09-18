@@ -12,9 +12,6 @@ export interface LoginType {
   password: string;
 }
 
-export interface LogoutType {
-  userId: string;
-  token: string;
+export interface RefreshTokenType {
+  refreshToken: string;
 }
-
-export type RefreshTokenType = LogoutType;

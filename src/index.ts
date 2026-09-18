@@ -3,6 +3,7 @@ import routes from './routes/v1/index.ts';
 import express, { json } from 'express';
 import { config } from './config/config.ts';
 import moment from 'moment-timezone';
+import { errorConverter, errorHandler } from './middlewares/error.ts';
 
 moment().tz('Asia/Jakarta').format();
 
@@ -12,6 +13,9 @@ const { port } = config;
 app.use(json());
 
 app.use('/v1', routes);
+
+app.use(errorConverter);
+app.use(errorHandler);
 
 app.get('/', (req, res) => {
   res.json({ message: 'Reeps API is running 🏋️' });

@@ -1,8 +1,9 @@
 import { AuthService } from '../services/auth.service.ts';
 import { TokenService } from '../services/token.service.ts';
 import { status as httpStatus } from 'http-status';
-import type { LoginType, LogoutType, RefreshTokenType, RegisterType } from '../types/auth.type.ts';
+import type { LoginType, RefreshTokenType, RegisterType } from '../types/auth.type.ts';
 import type { Response } from 'express';
+import type { AuthedRequest } from '../middlewares/authenticate.ts';
 
 const AuthController = {
   register: async (req: { body: RegisterType }, res: Response) => {
@@ -17,15 +18,16 @@ const AuthController = {
 
     res.status(httpStatus.OK).send({ user, tokens });
   },
-  logout: async (req: { body: LogoutType }, res: Response) => {
-    await AuthService.logout(req.body);
+  logout: async (req: AuthedRequest, res: Response) => {
+    await AuthService.logout({
+      userId: req.user?.id || '',
+    });
 
     res.status(httpStatus.OK).send({ message: 'Logout successfully!' });
   },
   refreshTokens: async (req: { body: RefreshTokenType }, res: Response) => {
-    const response = await AuthService.refreshTokens(req.body.token);
-
-    res.status(httpStatus.OK).send(response);
+    const tokens = await AuthService.refreshTokens(req.body.refreshToken);
+    res.status(httpStatus.OK).send({ ...tokens });
   },
 };
 

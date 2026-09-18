@@ -43,10 +43,10 @@ export const TokenService = {
       },
     };
   },
-  verifyToken: async (token: string) => {
+  verifyToken: async (token: string, type: string) => {
     // eslint-disable-next-line import-x/no-named-as-default-member
     const payload = jwt.verify(token, config.jwt.secret) as { type: string; sub: string };
-    const tokenDoc = await TokenModel.getUserToken({ token, userId: payload.sub });
+    const tokenDoc = await TokenModel.findToken({ token, userId: payload.sub, type });
     if (!tokenDoc) {
       throw new Error('Token not found');
     }

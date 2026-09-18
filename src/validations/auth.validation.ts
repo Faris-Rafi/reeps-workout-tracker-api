@@ -25,16 +25,8 @@ export const loginSchema = {
   }),
 };
 
-export const logoutSchema = {
+export const refreshTokenSchema = {
   body: z.object({
-    userId: z.string(),
-    token: z.string(),
-  }),
-};
-
-export const refreshTokensSchema = {
-  body: z.object({
-    userId: z.string(),
-    token: z.string(),
+    refreshToken: z.string(),
   }),
 };
