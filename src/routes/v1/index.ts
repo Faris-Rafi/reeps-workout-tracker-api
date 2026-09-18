@@ -1,6 +1,7 @@
+/* eslint-disable import-x/no-rename-default */
 import { Router } from 'express';
-// eslint-disable-next-line import-x/no-rename-default
 import AuthRoute from './auth.route.ts';
+import WorkoutRoute from './workout.route.ts';
 
 const router = Router();
 
@@ -8,6 +9,10 @@ const routes = [
   {
     path: '/auth',
     route: AuthRoute,
+  },
+  {
+    path: '/workout',
+    route: WorkoutRoute,
   },
 ];
 

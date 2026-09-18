@@ -60,7 +60,8 @@ export const contract = defineContract({}, ({ field, model, rel }) => {
     fields: {
       id: field.id.uuidv7String(),
       userId: field.uuidString(),
-      title: field.text(),
+      name: field.text(),
+      description: field.text().optional(),
       bgColor: field.json(),
       createdAt: field.temporal.createdAt(),
       updatedAt: field.temporal.updatedAt(),
