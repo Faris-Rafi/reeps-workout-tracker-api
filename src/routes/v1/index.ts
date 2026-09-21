@@ -2,6 +2,7 @@
 import { Router } from 'express';
 import AuthRoute from './auth.route.ts';
 import WorkoutRoute from './workout.route.ts';
+import ExerciseRoute from './exercise.route.ts';
 
 const router = Router();
 
@@ -13,6 +14,10 @@ const routes = [
   {
     path: '/workout',
     route: WorkoutRoute,
+  },
+  {
+    path: '/exercise',
+    route: ExerciseRoute,
   },
 ];
 
