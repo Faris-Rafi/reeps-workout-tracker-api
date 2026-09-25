@@ -67,13 +67,6 @@
                   }
                 }
               },
-              "image": {
-                "nullable": true,
-                "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
-                }
-              },
               "measurementUnitId": {
                 "nullable": false,
                 "type": {
@@ -99,7 +92,7 @@
                 }
               },
               "restTime": {
-                "nullable": true,
+                "nullable": false,
                 "type": {
                   "codecId": "pg/int4@1",
                   "kind": "scalar"
@@ -129,6 +122,13 @@
                   }
                 }
               },
+              "weight": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
               "workoutId": {
                 "nullable": false,
                 "type": {
@@ -137,13 +137,6 @@
                   "typeParams": {
                     "length": 36
                   }
-                }
-              },
-              "youtubeLink": {
-                "nullable": true,
-                "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
                 }
               }
             },
@@ -208,9 +201,6 @@
                 "id": {
                   "column": "id"
                 },
-                "image": {
-                  "column": "image"
-                },
                 "measurementUnitId": {
                   "column": "measurementUnitId"
                 },
@@ -232,11 +222,11 @@
                 "userId": {
                   "column": "userId"
                 },
+                "weight": {
+                  "column": "weight"
+                },
                 "workoutId": {
                   "column": "workoutId"
-                },
-                "youtubeLink": {
-                  "column": "youtubeLink"
                 }
               },
               "namespaceId": "public",
@@ -996,11 +986,6 @@
                     "length": 36
                   }
                 },
-                "image": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": true
-                },
                 "measurementUnitId": {
                   "codecId": "sql/char@1",
                   "nativeType": "character",
@@ -1022,7 +1007,7 @@
                 "restTime": {
                   "codecId": "pg/int4@1",
                   "nativeType": "int4",
-                  "nullable": true
+                  "nullable": false
                 },
                 "sets": {
                   "codecId": "pg/int4@1",
@@ -1042,6 +1027,11 @@
                     "length": 36
                   }
                 },
+                "weight": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": true
+                },
                 "workoutId": {
                   "codecId": "sql/char@1",
                   "nativeType": "character",
@@ -1049,11 +1039,6 @@
                   "typeParams": {
                     "length": 36
                   }
-                },
-                "youtubeLink": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": true
                 }
               },
               "foreignKeys": [],
@@ -1491,7 +1476,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "c5841bc56cac06c4042a03b443d70735068d975ac69856df45915193ec2f60e4"
+    "storageHash": "afe24834f46d5f288d981f62b949d380391b2f8b721f8d7202e9b5deb7f15ebd"
   },
   "execution": {
     "executionHash": "f189a399aa4cc02b361e48843da9fff6fbd02af547c6e7444d62512719b56c0d",

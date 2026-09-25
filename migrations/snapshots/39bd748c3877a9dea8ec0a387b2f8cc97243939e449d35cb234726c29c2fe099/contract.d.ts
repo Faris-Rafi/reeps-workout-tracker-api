@@ -34,7 +34,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'afe24834f46d5f288d981f62b949d380391b2f8b721f8d7202e9b5deb7f15ebd'>;
+  StorageHashBase<'39bd748c3877a9dea8ec0a387b2f8cc97243939e449d35cb234726c29c2fe099'>;
 export type ExecutionHash =
   ExecutionHashBase<'f189a399aa4cc02b361e48843da9fff6fbd02af547c6e7444d62512719b56c0d'>;
 export type ProfileHash =
@@ -249,7 +249,7 @@ export type FieldOutputTypes = {
       readonly name: CodecTypes['pg/text@1']['output'];
       readonly sets: CodecTypes['pg/int4@1']['output'];
       readonly reps: CodecTypes['pg/int4@1']['output'];
-      readonly weight: CodecTypes['pg/int4@1']['output'] | null;
+      readonly weight: CodecTypes['pg/int4@1']['output'];
       readonly measurementUnitId: Char<36>;
       readonly equipment: CodecTypes['pg/text@1']['output'] | null;
       readonly restTime: CodecTypes['pg/int4@1']['output'];
@@ -328,7 +328,7 @@ export type FieldInputTypes = {
       readonly name: CodecTypes['pg/text@1']['input'];
       readonly sets: CodecTypes['pg/int4@1']['input'];
       readonly reps: CodecTypes['pg/int4@1']['input'];
-      readonly weight: CodecTypes['pg/int4@1']['input'] | null;
+      readonly weight: CodecTypes['pg/int4@1']['input'];
       readonly measurementUnitId: CodecTypes['sql/char@1']['input'];
       readonly equipment: CodecTypes['pg/text@1']['input'] | null;
       readonly restTime: CodecTypes['pg/int4@1']['input'];
@@ -411,7 +411,7 @@ export type StorageColumnTypes = {
       readonly sets: CodecTypes['pg/int4@1']['output'];
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
       readonly userId: Char<36>;
-      readonly weight: CodecTypes['pg/int4@1']['output'] | null;
+      readonly weight: CodecTypes['pg/int4@1']['output'];
       readonly workoutId: Char<36>;
     };
     readonly MeasurementUnit: {
@@ -490,7 +490,7 @@ export type StorageColumnInputTypes = {
       readonly sets: CodecTypes['pg/int4@1']['input'];
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
       readonly userId: CodecTypes['sql/char@1']['input'];
-      readonly weight: CodecTypes['pg/int4@1']['input'] | null;
+      readonly weight: CodecTypes['pg/int4@1']['input'];
       readonly workoutId: CodecTypes['sql/char@1']['input'];
     };
     readonly MeasurementUnit: {
@@ -609,7 +609,7 @@ export namespace Models {
     name: CodecTypes['pg/text@1']['output'];
     sets: CodecTypes['pg/int4@1']['output'];
     reps: CodecTypes['pg/int4@1']['output'];
-    weight: CodecTypes['pg/int4@1']['output'] | null;
+    weight: CodecTypes['pg/int4@1']['output'];
     measurementUnitId: Char<36>;
     equipment: CodecTypes['pg/text@1']['output'] | null;
     restTime: CodecTypes['pg/int4@1']['output'];
@@ -723,7 +723,7 @@ type ContractBase = Omit<
                 readonly weight: {
                   readonly nativeType: 'int4';
                   readonly codecId: 'pg/int4@1';
-                  readonly nullable: true;
+                  readonly nullable: false;
                 };
                 readonly measurementUnitId: {
                   readonly nativeType: 'character';
@@ -1143,7 +1143,7 @@ type ContractBase = Omit<
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
               };
               readonly weight: {
-                readonly nullable: true;
+                readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
               };
               readonly measurementUnitId: {

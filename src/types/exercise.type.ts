@@ -14,5 +14,25 @@ export interface CreateExercise {
   measurementUnitId: string;
   equipment?: string;
   restTime: number;
-  image: string;
+  userId: string;
+  workoutId: string;
+}
+
+export interface ReqCreateExercise extends AuthedRequest {
+  body: {
+    name: string;
+    sets: number;
+    reps: number;
+    weight?: number;
+    measurementUnitId: string;
+    equipment?: string;
+    restTime: number;
+    workoutId: string;
+  };
+}
+
+export interface ReqDeleteExercise extends AuthedRequest {
+  body: {
+    id: string;
+  };
 }
