@@ -1,6 +1,7 @@
 import { db } from '../prisma/db.ts';
 import type { Char } from '@prisma/orm-postgres/target/codec-types';
 import { hash, compare } from 'bcrypt';
+import type { UpdateUserProfile } from '../types/user.type.ts';
 
 const prisma = db.orm.public;
 const DEFAULT_STATUS_ID = '01a08d61-f678-750d-a0d1-d4fef2266e08' as Char<36>; // Neea update profile
@@ -32,6 +33,9 @@ export const UserModel = {
   create: (data: { name: string; email: string; password: string }) =>
     prisma.User.create({ ...data, statusId: DEFAULT_STATUS_ID }),
 
-  update: (data: { email: string; name: string; weight: string; height: string }) =>
+  update: (data: UpdateUserProfile) =>
     prisma.User.where({ email: data.email }).update({ ...data, statusId: UPDATED_STATUS_ID }),
+
+  updatePassword: (data: { email: string; password: string }) =>
+    prisma.User.where({ email: data.email }).update({ ...data }),
 };

@@ -17,3 +17,18 @@ export const deleteWorkoutSchema = {
     id: z.string(),
   }),
 };
+
+export const startWorkoutSessionSchema = {
+  body: z.object({
+    workoutId: z.string(),
+  }),
+};
+
+export const finishWorkoutSessionSchema = {
+  body: z.object({
+    workoutId: z.string(),
+    exerciseCount: z.number(),
+    setCount: z.number(),
+    volume: z.number(),
+  }),
+};

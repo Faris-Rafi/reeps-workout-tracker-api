@@ -568,6 +568,13 @@
                   "kind": "scalar"
                 }
               },
+              "weeklyGoal": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
               "weight": {
                 "nullable": true,
                 "type": {
@@ -622,6 +629,9 @@
                 },
                 "updatedAt": {
                   "column": "updatedAt"
+                },
+                "weeklyGoal": {
+                  "column": "weeklyGoal"
                 },
                 "weight": {
                   "column": "weight"
@@ -846,6 +856,13 @@
                   "kind": "scalar"
                 }
               },
+              "exerciseCount": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
               "id": {
                 "nullable": false,
                 "type": {
@@ -854,6 +871,13 @@
                   "typeParams": {
                     "length": 36
                   }
+                }
+              },
+              "setCount": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
                 }
               },
               "startedAt": {
@@ -878,6 +902,13 @@
                   "typeParams": {
                     "length": 36
                   }
+                }
+              },
+              "volume": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
                 }
               },
               "workoutId": {
@@ -933,8 +964,14 @@
                 "endedAt": {
                   "column": "endedAt"
                 },
+                "exerciseCount": {
+                  "column": "exerciseCount"
+                },
                 "id": {
                   "column": "id"
+                },
+                "setCount": {
+                  "column": "setCount"
                 },
                 "startedAt": {
                   "column": "startedAt"
@@ -944,6 +981,9 @@
                 },
                 "userId": {
                   "column": "userId"
+                },
+                "volume": {
+                  "column": "volume"
                 },
                 "workoutId": {
                   "column": "workoutId"
@@ -1282,6 +1322,11 @@
                   "nativeType": "timestamptz",
                   "nullable": false
                 },
+                "weeklyGoal": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": true
+                },
                 "weight": {
                   "codecId": "pg/numeric@1",
                   "nativeType": "numeric",
@@ -1426,6 +1471,11 @@
                   "nativeType": "timestamp",
                   "nullable": true
                 },
+                "exerciseCount": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": true
+                },
                 "id": {
                   "codecId": "sql/char@1",
                   "nativeType": "character",
@@ -1433,6 +1483,11 @@
                   "typeParams": {
                     "length": 36
                   }
+                },
+                "setCount": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": true
                 },
                 "startedAt": {
                   "codecId": "pg/timestamp-temporal@1",
@@ -1451,6 +1506,11 @@
                   "typeParams": {
                     "length": 36
                   }
+                },
+                "volume": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": true
                 },
                 "workoutId": {
                   "codecId": "sql/char@1",
@@ -1476,7 +1536,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "afe24834f46d5f288d981f62b949d380391b2f8b721f8d7202e9b5deb7f15ebd"
+    "storageHash": "7238de4d7821f2e3f4654f7a0c695c655839562eb21828bba8e4dd82efb6257a"
   },
   "execution": {
     "executionHash": "f189a399aa4cc02b361e48843da9fff6fbd02af547c6e7444d62512719b56c0d",
