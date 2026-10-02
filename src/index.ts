@@ -4,6 +4,7 @@ import express, { json } from 'express';
 import { config } from './config/config.ts';
 import moment from 'moment-timezone';
 import { errorConverter, errorHandler } from './middlewares/error.ts';
+import path from 'node:path';
 
 moment().tz('Asia/Jakarta').format();
 
@@ -11,6 +12,14 @@ const app = express();
 const { port } = config;
 
 app.use(json());
+app.use(
+  '/uploads',
+  // eslint-disable-next-line import-x/no-named-as-default-member
+  express.static(path.resolve(process.cwd(), 'uploaded-image'), {
+    maxAge: '7d',
+    immutable: true, // safe because every upload gets a new UUID filename
+  })
+);
 
 app.use('/v1', routes);
 

@@ -38,4 +38,7 @@ export const UserModel = {
 
   updatePassword: (data: { email: string; password: string }) =>
     prisma.User.where({ email: data.email }).update({ ...data }),
+
+  updateAvatar: (userId: string, avatarPath: string) =>
+    prisma.User.where({ id: userId as Char<36> }).update({ avatarPath }),
 };

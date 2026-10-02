@@ -50,6 +50,7 @@ export const contract = defineContract({}, ({ field, model, rel }) => {
       height: field.decimal().optional(),
       weight: field.decimal().optional(),
       weeklyGoal: field.int().optional(),
+      avatarPath: field.text().optional(),
       statusId: field.uuidString(),
       createdAt: field.temporal.createdAt(),
       updatedAt: field.temporal.updatedAt(),
