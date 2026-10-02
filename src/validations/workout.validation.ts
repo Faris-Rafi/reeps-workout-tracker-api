@@ -26,7 +26,6 @@ export const startWorkoutSessionSchema = {
 
 export const finishWorkoutSessionSchema = {
   body: z.object({
-    workoutId: z.string(),
     exerciseCount: z.number(),
     setCount: z.number(),
     volume: z.number(),

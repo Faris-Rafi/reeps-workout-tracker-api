@@ -28,7 +28,6 @@ export interface ReqStartWorkout extends AuthedRequest {
 
 export interface ReqFinishWorkout extends AuthedRequest {
   body: {
-    workoutId: string;
     exerciseCount: number;
     setCount: number;
     volume: number;
@@ -48,8 +47,7 @@ export interface CreateWorkoutSession {
 }
 
 export interface UpdateWorkoutSession {
-  userId: string;
-  workoutId: string;
+  sessionId: string;
   exerciseCount: number;
   setCount: number;
   volume: number;

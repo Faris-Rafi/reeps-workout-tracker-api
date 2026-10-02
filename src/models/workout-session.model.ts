@@ -19,14 +19,13 @@ export const WorkoutSessionModel = {
   create: (data: CreateWorkoutSession) => {
     const userId = data.userId as Char<36>;
     const workoutId = data.workoutId as Char<36>;
-    const startedAt = Temporal.PlainDateTime.from(moment().toISOString());
+    const startedAt = Temporal.PlainDateTime.from(moment().format());
     return prisma.WorkoutSession.create({ userId, workoutId, startedAt });
   },
   update: (data: UpdateWorkoutSession) => {
-    const userId = data.userId as Char<36>;
-    const workoutId = data.workoutId as Char<36>;
-    const endedAt = Temporal.PlainDateTime.from(moment().toISOString());
-    return prisma.WorkoutSession.where({ userId, workoutId }).update({
+    const sessionId = data.sessionId as Char<36>;
+    const endedAt = Temporal.PlainDateTime.from(moment().format());
+    return prisma.WorkoutSession.where({ id: sessionId }).update({
       exerciseCount: data.exerciseCount,
       setCount: data.setCount,
       volume: data.volume,

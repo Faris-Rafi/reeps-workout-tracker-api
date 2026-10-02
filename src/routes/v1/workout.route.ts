@@ -33,8 +33,8 @@ router.post(
   validate(startWorkoutSessionSchema),
   WorkoutController.startWorkoutSession
 );
-router.post(
-  '/sessions/finish',
+router.put(
+  '/sessions/finish/:id',
   authenticate,
   validate(finishWorkoutSessionSchema),
   WorkoutController.finishWorkoutSession

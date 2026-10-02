@@ -8,7 +8,9 @@ const UserService = {
     return UserModel.update(data);
   },
   updatePassword: async (data: UpdateUserPassword) => {
-    if (!UserModel.isPasswordMatch(data.oldPassword, data.currentPassword)) {
+    const isPasswordMatch = await UserModel.isPasswordMatch(data.oldPassword, data.currentPassword);
+
+    if (!isPasswordMatch) {
       throw new ApiError(httpStatus.BAD_REQUEST, 'Password incorrect!');
     }
 

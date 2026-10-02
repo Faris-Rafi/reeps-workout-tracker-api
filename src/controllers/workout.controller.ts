@@ -38,7 +38,7 @@ const WorkoutController = {
   finishWorkoutSession: async (req: ReqFinishWorkout, res: Response) => {
     const session = await WorkoutService.finishWorkoutSession({
       ...req.body,
-      userId: req.user?.id || '',
+      sessionId: req.params.id as string,
     });
     res.status(httpStatus.OK).send({ session });
   },
