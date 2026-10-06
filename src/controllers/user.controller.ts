@@ -1,8 +1,8 @@
 import { status as httpStatus } from 'http-status';
 import type { Response } from 'express';
-import UserService from '../services/user.service';
-import type { ReqUpdateUserPassword, ReqUpdateUserProfile } from '../types/user.type';
-import type { AuthedRequest } from '../middlewares/authenticate';
+import UserService from '../services/user.service.ts';
+import type { ReqUpdateUserPassword, ReqUpdateUserProfile } from '../types/user.type.ts';
+import type { AuthedRequest } from '../middlewares/authenticate.ts';
 
 const UserController = {
   updateProfile: async (req: ReqUpdateUserProfile, res: Response) => {

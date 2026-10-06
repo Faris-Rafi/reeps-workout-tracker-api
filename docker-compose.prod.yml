@@ -1,16 +1,15 @@
+name: reeps-prod
+
 services:
   db:
     image: postgres:16.15-alpine
-    container_name: reeps_db
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
-    ports:
-      - "127.0.0.1:5433:5432"
     volumes:
-      - reeps-db-data:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
@@ -18,23 +17,17 @@ services:
       retries: 10
 
   node_app:
-    profiles: ["app"]
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
-    image: node_api
-    container_name: reeps_api
+    build: .
+    restart: unless-stopped
     ports:
-      - '3001:3001'
+      - "3001:3001"
     environment:
+      NODE_ENV: production
       PORT: 3001
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
     depends_on:
       db:
         condition: service_healthy
-    volumes:
-      - .:/app
-      - /app/node_modules
 
 volumes:
-  reeps-db-data:
+  db-data:

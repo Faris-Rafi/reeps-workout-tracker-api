@@ -1,7 +1,7 @@
 import { fileTypeFromBuffer } from 'file-type';
-import { UserModel } from '../models/user.model';
-import type { UpdateUserPassword, UpdateUserProfile } from '../types/user.type';
-import { ApiError } from '../utils/ApiError';
+import { UserModel } from '../models/user.model.ts';
+import type { UpdateUserPassword, UpdateUserProfile } from '../types/user.type.ts';
+import { ApiError } from '../utils/ApiError.ts';
 import { status as httpStatus } from 'http-status';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
