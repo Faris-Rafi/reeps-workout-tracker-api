@@ -2,8 +2,8 @@
 name: prisma-platform-core-concepts
 metadata:
   library: "prisma"
-  library_version: "8.0.0-rc.15"
-  version: 2026.9.1
+  library_version: "8.0.0-rc.20"
+  version: 2026.9.2
 description: >-
   Use when hosting, deploying, or operating an app on the Prisma Platform:
   projects, branches, preview environments, services and their versions,
@@ -71,26 +71,42 @@ packages (`prisma-composer-core-concepts` in `@prisma/composer`,
 `prisma-orm-core-concepts` in `@prisma/orm-postgres`), so they appear after
 this install plus `prisma skills sync`, not before.
 
-Two config files with different owners:
+One config file, `prisma.config.ts`, configures the CLI and every product
+it runs. Each top-level key is a section owned by one product, and this CLI
+recognises exactly three: `orm`, `composer`, and `skills`. The composed
+shape:
 
-1. `prisma.config.ts` configures the CLI. Each top-level key is a section
-   owned by one product, and this CLI recognises exactly three: `orm`,
-   `composer`, and `skills`. The composed shape:
+```ts
+import { definePrismaConfig } from "prisma/config";
+import { defineConfig as composer } from "@prisma/composer/config";
+import { nodeBuild } from "@prisma/composer/node/control";
+import {
+  prismaCloud,
+  prismaState,
+} from "@prisma/composer-prisma-cloud/control";
+import { defineConfig as orm } from "@prisma/orm-postgres/config";
 
-   ```ts
-   import { definePrismaConfig } from "prisma/config";
-   import { defineConfig } from "@prisma/orm-postgres/config";
+export default definePrismaConfig({
+  composer: composer({
+    extensions: [prismaCloud(), nodeBuild()],
+    state: prismaState(),
+  }),
+  orm: orm({ contract: "./src/prisma/contract.prisma" }),
+  skills: { agents: ["claude"] },
+});
+```
 
-   export default definePrismaConfig({
-     orm: defineConfig({ contract: "./src/prisma/contract.prisma" }),
-     skills: { agents: ["claude"] },
-   });
-   ```
-
-2. `prisma-composer.config.ts` configures Composer itself and is a separate,
-   mandatory file for `dev` and `deploy`: without it `dev` fails with
-   `CONFIG.FILE_MISSING`. Its contents belong to
-   `prisma-composer-core-concepts`.
+`dev` and `deploy` read the `composer` section and nothing else; what goes
+in it belongs to `prisma-composer-core-concepts`. A separate
+`prisma-composer.config.ts` is no longer read, and the old setup is refused,
+never silently ignored: `CONFIG.SECTION_MISSING` when no loaded
+`prisma.config.ts` declares a `composer` section, `CONFIG.FIELD_RETIRED`
+when the section still has `configPath`, and `CONFIG.FILE_RETIRED` when a
+`prisma-composer.config.*` sits next to the declaring `prisma.config.ts`.
+All three arrive under the CLI's `CLI.CONFIG_SECTION_INVALID`. For
+`CONFIG.SECTION_MISSING`, write the section. For the other two, move the
+old file's `extensions` and `state` into the section, then delete the
+`configPath` field or the old file.
 
 ## The resource model
 
@@ -119,8 +135,9 @@ another project or branch explicitly.
 There is no separate "preview environment" object to create or configure. The
 branch is the environment, and branches come into being by deploying to them:
 
-1. **Push a git branch** (with the GitHub integration connected): the
-   platform creates the branch environment on the fly, builds, and deploys.
+1. **Push a git branch** (with the GitHub integration connected and the
+   deploy workflow in the repository): the workflow builds and deploys, and
+   the platform creates the branch environment on the fly.
 2. **Deploy a stage from the CLI**: `prisma deploy module.ts --stage pr-42`
    creates a branch named `pr-42` and deploys the identical app graph into
    it. A stage name must be a valid git ref name; an invalid name is a hard
@@ -142,13 +159,48 @@ Preview lifecycle rules:
 
 ## Two ways to deploy
 
-**GitHub (recommended).** Install the Prisma GitHub app and connect the
-repository: `prisma git connect`, or import the repository in the Console.
-From then on, every push builds and deploys on the platform. A push to the
-default branch deploys production; a push to any other branch creates or
-updates that branch's preview environment. No workflow file is required, and
-previews come free with every branch. Opening a pull request does not itself
-deploy anything; previews track branch pushes.
+**GitHub (recommended).** Two pieces, both required: the Prisma GitHub App
+connected to the repository, and a GitHub Actions workflow in the repository
+that runs `prisma/cloud-deploy-action`. The platform does not build on push.
+The workflow builds in the repository's own Actions and deploys with a
+short-lived credential exchanged from the run's OIDC token; the connection
+is what authorises that exchange, and it also tears a preview down when its
+git branch is deleted. Importing the repository in the Console opens a setup
+pull request that adds the workflow. `prisma git connect` only creates the
+connection, so a repository connected from the CLI adds the workflow itself.
+The minimal `.github/workflows/prisma-deploy.yml`:
+
+```yaml
+name: prisma-deploy
+on:
+  push:
+permissions:
+  contents: read
+  id-token: write
+jobs:
+  deploy:
+    if: github.ref_type == 'branch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: oven-sh/setup-bun@v2
+      - uses: prisma/cloud-deploy-action@v1
+        with:
+          build-command: npm run build
+```
+
+From then on, every push of a branch that carries the workflow file runs
+it; GitHub reads workflows from the pushed commit, so a branch created
+before the file was added deploys nothing until it contains the file. A
+push to the default branch deploys production; a push to any other branch
+creates or updates that branch's preview environment, so previews come free
+with every branch.
+Opening a pull request does not itself deploy anything; previews track
+branch pushes. A connected repository without the workflow gets branch
+bookkeeping and preview teardown from the platform, and no builds.
 
 **CLI.** `prisma deploy module.ts` deploys production directly; add
 `--stage <name>` for a preview. Authenticate once with `prisma auth login`
@@ -324,6 +376,12 @@ Windows is not supported for the local stack yet.
 10. **A deployed service errors on its first timestamp read
     (`RUNTIME.TEMPORAL_UNAVAILABLE`).** The runtime has no global
     `Temporal`; see the Compute runtime section for the polyfill.
+11. **The repository is connected, but a push built nothing.** The platform
+    does not build on push; the repository's own workflow does. Make sure
+    `.github/workflows/prisma-deploy.yml` exists on the pushed branch and
+    that a run appears under the repository's Actions tab. A connected
+    repository with no workflow records the branch and deploys nothing, and
+    no error is raised anywhere.
 
 ## What the platform doesn't do yet
 
@@ -340,6 +398,9 @@ Name the gap instead of inventing an API:
    enough to name here.
 4. **No bucket rename** and no bucket-to-branch re-association after
    creation; re-create instead.
+5. **No build on push without a workflow.** The GitHub connection authorises
+   deploys and tears previews down; it never starts a build. The
+   `prisma/cloud-deploy-action` workflow is the build.
 
 For anything else missing, run the nearest group with `--help` before
 concluding it does not exist, and route requests with `prisma feedback`
