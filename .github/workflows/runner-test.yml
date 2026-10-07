@@ -16,6 +16,6 @@ jobs:
       - name: Show environment
         run: |
           whoami
-          hostname
+          uname -n
           node -v
           npm -v
