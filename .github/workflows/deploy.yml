@@ -1,0 +1,45 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: "deploy"
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+      - run: npm ci
+      - run: npm test --if-present
+    
+  deploy:
+    needs: test
+    runs-on: [self-hosted, linux, arch]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Write .env
+        env:
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          printf 'POSTGRES_PASSWORD=%s\nDATABASE_URL=%s\n' \
+            "$POSTGRES_PASSWORD" "$DATABASE_URL" > .env
+
+      - name: Build and start
+        run: docker compose -f docker-compose.prod.yml up -d --build --remove-orphans
+
+      - name: Check containers
+        run: docker compose -f docker-compose.prod.yml ps
+
+      - name: Clean old images
+        run: docker image prune -f
