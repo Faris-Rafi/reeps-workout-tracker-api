@@ -1,0 +1,21 @@
+name: Runner test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  hello:
+    runs-on: [self-hosted, linux, arch]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Show environment
+        run: |
+          whoami
+          hostname
+          node -v
+          npm -v
