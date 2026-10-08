@@ -7,7 +7,7 @@
   "author": "ReesV <farisrafi048@gmail.com>",
   "type": "module",
   "scripts": {
-    "test": "jest -i --colors --verbose --detectOpenHandles",
+    "test": "jest -i --colors --verbose --detectOpenHandles --passWithNoTests",
     "start": "node dist/index.js",
     "dev": "nodemon --watch src --ext ts --exec ts-node src/index.ts",
     "build": "tsc",

@@ -19,7 +19,7 @@ jobs:
           node-version: 22
           cache: "npm"
       - run: npm ci
-      - run: npm test --if-present --passWithNoTests
+      - run: npm test --if-present 
     
   deploy:
     needs: test
