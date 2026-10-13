@@ -16,6 +16,16 @@ export const WorkoutSessionModel = {
       .where((session) => session.startedAt.lt(nextMonthStart))
       .all();
   },
+  thisWeekSessions: async (data: { userId: string }) => {
+    const today = Temporal.Now.plainDateISO('UTC');
+    const weekStart = today.subtract({ days: today.dayOfWeek }).toPlainDateTime();
+    const nextWeekStart = weekStart.add({ weeks: 1 });
+
+    return prisma.WorkoutSession.where((session) => session.userId.eq(data.userId as Char<36>))
+      .where((session) => session.startedAt.gte(weekStart))
+      .where((session) => session.startedAt.lt(nextWeekStart))
+      .all();
+  },
   create: (data: CreateWorkoutSession) => {
     const userId = data.userId as Char<36>;
     const workoutId = data.workoutId as Char<36>;

@@ -6,7 +6,7 @@
       "request": "launch",
       "name": "Debug Express",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["--import", "tsx"],
+      "runtimeArgs": ["--import", "tsx", "src/index.ts"],
       "program": "${workspaceFolder}/src/index.ts",
       "skipFiles": ["<node_internals>/**"],
       "console": "integratedTerminal"

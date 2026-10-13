@@ -28,6 +28,12 @@ const WorkoutController = {
     });
     res.status(httpStatus.OK).send({ sessions });
   },
+  getThisWeekWorkoutSessions: async (req: AuthedRequest, res: Response) => {
+    const sessions = await WorkoutService.getThisWeekWorkoutSessions({
+      userId: req.user?.id || '',
+    });
+    res.status(httpStatus.OK).send({ sessions });
+  },
   startWorkoutSession: async (req: ReqStartWorkout, res: Response) => {
     const session = await WorkoutService.startWorkoutSession({
       ...req.body,

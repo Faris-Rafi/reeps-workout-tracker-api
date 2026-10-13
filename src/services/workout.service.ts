@@ -27,6 +27,9 @@ const WorkoutService = {
   getThisMonthWorkoutSessions: (data: { userId: string }) => {
     return WorkoutSessionModel.thisMonthSessions({ ...data });
   },
+  getThisWeekWorkoutSessions: (data: { userId: string }) => {
+    return WorkoutSessionModel.thisWeekSessions({ ...data });
+  },
   startWorkoutSession: (data: CreateWorkoutSession) => {
     return WorkoutSessionModel.create({ ...data });
   },

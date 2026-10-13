@@ -15,6 +15,7 @@ const router = Router();
 router.use(apiLimiter);
 router.get('/', authenticate, WorkoutController.getAllWorkouts);
 router.get('/sessions', authenticate, WorkoutController.getThisMonthWorkoutSessions);
+router.get('/sessions/week', authenticate, WorkoutController.getThisWeekWorkoutSessions);
 router.post(
   '/create',
   authenticate,
