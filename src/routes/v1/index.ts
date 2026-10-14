@@ -4,6 +4,7 @@ import AuthRoute from './auth.route.ts';
 import UserRoute from './user.route.ts';
 import WorkoutRoute from './workout.route.ts';
 import ExerciseRoute from './exercise.route.ts';
+import StatsRoute from './stats.route.ts';
 
 const router = Router();
 
@@ -23,6 +24,10 @@ const routes = [
   {
     path: '/exercise',
     route: ExerciseRoute,
+  },
+  {
+    path: '/stats',
+    route: StatsRoute,
   },
 ];
 

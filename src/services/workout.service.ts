@@ -1,4 +1,4 @@
-import { WorkoutSessionModel } from '../models/workout-session.model.ts';
+import { SessionModel } from '../models/session.model.ts';
 import { WorkoutModel } from '../models/workout.model.ts';
 import type {
   CreateWorkout,
@@ -25,16 +25,16 @@ const WorkoutService = {
     return WorkoutModel.delete({ ...data });
   },
   getThisMonthWorkoutSessions: (data: { userId: string }) => {
-    return WorkoutSessionModel.thisMonthSessions({ ...data });
+    return SessionModel.thisMonthSessions({ ...data });
   },
   getThisWeekWorkoutSessions: (data: { userId: string }) => {
-    return WorkoutSessionModel.thisWeekSessions({ ...data });
+    return SessionModel.thisWeekSessions({ ...data });
   },
   startWorkoutSession: (data: CreateWorkoutSession) => {
-    return WorkoutSessionModel.create({ ...data });
+    return SessionModel.create({ ...data });
   },
   finishWorkoutSession: (data: UpdateWorkoutSession) => {
-    return WorkoutSessionModel.update({ ...data });
+    return SessionModel.update({ ...data });
   },
 };
 
